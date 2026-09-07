@@ -1,11 +1,28 @@
 import { Router } from "express";
 import auth from "../middleware/auth.js";
-import * as a from "../controllers/authController.js";
-import * as u from "../controllers/userController.js";
-import * as p from "../controllers/postController.js";
-import * as c from "../controllers/commentController.js";
-import * as n from "../controllers/notificationController.js";
+import * as authControllers from "../controllers/authController.js";
+import * as userControllers from "../controllers/userController.js";
+import * as postControllers from "../controllers/postController.js";
+import * as commentControllers from "../controllers/commentController.js";
+import * as notificationControllers from "../controllers/notificationController.js";
 const router = Router();
+
+const wrapControllers = (controllers) =>
+  new Proxy(controllers, {
+    get(target, property) {
+      const controller = target[property];
+      if (typeof controller !== "function") return controller;
+      return (req, res, next) =>
+        Promise.resolve(controller(req, res, next)).catch(next);
+    },
+  });
+
+const a = wrapControllers(authControllers);
+const u = wrapControllers(userControllers);
+const p = wrapControllers(postControllers);
+const c = wrapControllers(commentControllers);
+const n = wrapControllers(notificationControllers);
+
 router.post("/users/signup", a.signup);
 router.post("/users/signin", a.signin);
 router.patch("/users/change-password", auth, a.changePassword);

@@ -109,6 +109,17 @@ Comment body: `{ "content": "Great post!" }`. A reply uses the same body and is 
 
 ## Deployment
 
+### Vercel (free option)
+
+This project includes `api/index.js` and `vercel.json` for Vercel serverless deployment. From the project folder, install the Vercel CLI and deploy:
+
+```bash
+npm install -g vercel
+vercel
+```
+
+Select the linked GitHub project when prompted. In the Vercel project settings, add `MONGO_URI`, `JWT_SECRET`, `JWT_EXPIRES_IN=7d`, and `CLIENT_URL=*`. Then redeploy. The API base URL is `https://YOUR-VERCEL-PROJECT.vercel.app/api` and the health check is `/api/health`.
+
 `render.yaml` is ready for a Render free web service. Create a service from this repository and set the secret `MONGO_URI`, `JWT_SECRET`, and `CLIENT_URL` environment variables in Render. The public base URL will be:
 
 `https://eloop-social-api.onrender.com/api`

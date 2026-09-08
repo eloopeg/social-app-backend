@@ -4,7 +4,10 @@
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
-    { "key": "baseUrl", "value": "http://localhost:5000/api" },
+    {
+      "key": "baseUrl",
+      "value": "https://social-app-backend-6u7v530f9-eloopeg.vercel.app/api"
+    },
     { "key": "token", "value": "" },
     { "key": "userId", "value": "" },
     { "key": "postId", "value": "" },

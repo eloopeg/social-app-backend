@@ -53,15 +53,24 @@ export const signup = async (req, res) => {
 };
 export const signin = async (req, res) => {
   const { login, email, username, password } = req.body;
+  const identifier = email || login || username;
+  if (!identifier || !password)
+    return fail(res, "email and password are required", 400);
   const user = await User.findOne({
-    $or: [
-      { email: email || login || username },
-      { username: login || username || email },
-    ],
+    $or: [{ email: identifier }, { username: identifier }],
   }).select("+password");
   if (!user || !(await user.comparePassword(password || "")))
-    return fail(res, "Invalid credentials", 401);
-  ok(res, { token: token(user.id), user });
+    return fail(res, "Invalid email or password", 401);
+  ok(
+    res,
+    {
+      token: token(user.id),
+      tokenType: "Bearer",
+      expiresIn,
+      user: authUser(user),
+    },
+    "login successful",
+  );
 };
 export const changePassword = async (req, res) => {
   const { currentPassword, newPassword } = req.body;

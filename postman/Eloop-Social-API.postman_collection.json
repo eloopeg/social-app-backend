@@ -37,7 +37,7 @@
         "header": [{ "key": "Content-Type", "value": "application/json" }],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"login\": \"ada\",\n  \"password\": \"secret123\"\n}"
+          "raw": "{\n  \"email\": \"ahmedbahnasy@gmail.com\",\n  \"password\": \"Bahnasy@123\"\n}"
         },
         "url": "{{baseUrl}}/users/signin"
       }

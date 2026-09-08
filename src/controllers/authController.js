@@ -1,12 +1,22 @@
 import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import { fail, ok } from "../utils/response.js";
 
+const expiresIn = process.env.JWT_EXPIRES_IN || "7d";
 const token = (id) =>
-  jwt.sign({ id }, process.env.JWT_SECRET || "eloop-development-secret", {
-    expiresIn: process.env.JWT_EXPIRES_IN || "7d",
+  jwt.sign({ user: id }, process.env.JWT_SECRET || "eloop-development-secret", {
+    expiresIn,
+    audience: "linked-posts-client",
+    issuer: "linked-posts-api",
   });
+const authUser = (user) => ({
+  _id: user._id,
+  name: user.name,
+  username: user.username,
+  email: user.email,
+  photo: user.photo || user.image || "",
+  cover: user.cover || "",
+});
 export const signup = async (req, res) => {
   const { name, username, email, dateOfBirth, gender, password, rePassword } =
     req.body;
@@ -29,7 +39,17 @@ export const signup = async (req, res) => {
     gender,
     password,
   });
-  ok(res, { token: token(user.id), user }, "Account created", 201);
+  ok(
+    res,
+    {
+      token: token(user.id),
+      tokenType: "Bearer",
+      expiresIn,
+      user: authUser(user),
+    },
+    "account created",
+    201,
+  );
 };
 export const signin = async (req, res) => {
   const { login, email, username, password } = req.body;

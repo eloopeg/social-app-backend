@@ -23,6 +23,12 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true, select: false },
     bio: { type: String, default: "" },
     image: { type: String, default: "" },
+    photo: {
+      type: String,
+      default:
+        "https://pub-3cba56bacf9f4965bbb0989e07dada12.r2.dev/linkedPosts/default-profile.png",
+    },
+    cover: { type: String, default: "" },
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },

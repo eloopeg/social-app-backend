@@ -9,11 +9,18 @@ export default async function auth(req, res, next) {
       return res
         .status(401)
         .json({ success: false, message: "Authentication required" });
-    const payload = jwt.verify(
-      token,
-      process.env.JWT_SECRET || "eloop-development-secret",
-    );
-    req.user = await User.findById(payload.id);
+    const secret = process.env.JWT_SECRET || "eloop-development-secret";
+    let payload;
+    try {
+      payload = jwt.verify(token, secret, {
+        audience: "linked-posts-client",
+        issuer: "linked-posts-api",
+      });
+    } catch (error) {
+      if (error.name !== "JsonWebTokenError") throw error;
+      payload = jwt.verify(token, secret);
+    }
+    req.user = await User.findById(payload.user || payload.id);
     if (!req.user)
       return res
         .status(401)

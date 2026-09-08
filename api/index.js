@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import app from "../src/app.js";
+import docsPage from "../src/docsPage.js";
 
 let databaseConnection;
 
@@ -29,6 +30,10 @@ export default async function handler(req, res) {
     requestUrl.startsWith("/health");
 
   try {
+    if (requestUrl === "/docs" || requestUrl === "/api/docs") {
+      res.setHeader("Content-Type", "text/html; charset=utf-8");
+      return res.status(200).send(docsPage());
+    }
     if (!isPublicHealth) await connectDatabase();
     return app(req, res);
   } catch (error) {

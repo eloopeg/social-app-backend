@@ -8,13 +8,27 @@ const token = (id) =>
     expiresIn: process.env.JWT_EXPIRES_IN || "7d",
   });
 export const signup = async (req, res) => {
-  const { name, username, email, password } = req.body;
+  const { name, username, email, dateOfBirth, gender, password, rePassword } =
+    req.body;
   if (!name || !username || !email || !password || password.length < 6)
     return fail(
       res,
       "name, username, email and a 6+ character password are required",
     );
-  const user = await User.create({ name, username, email, password });
+  if (rePassword !== undefined && password !== rePassword)
+    return fail(res, "Password and rePassword must match");
+  if (dateOfBirth && Number.isNaN(Date.parse(dateOfBirth)))
+    return fail(res, "dateOfBirth must be a valid date");
+  if (gender && !["male", "female", "other"].includes(gender))
+    return fail(res, "gender must be male, female, or other");
+  const user = await User.create({
+    name,
+    username,
+    email,
+    dateOfBirth,
+    gender,
+    password,
+  });
   ok(res, { token: token(user.id), user }, "Account created", 201);
 };
 export const signin = async (req, res) => {

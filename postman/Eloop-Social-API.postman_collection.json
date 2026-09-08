@@ -22,7 +22,7 @@
         "header": [{ "key": "Content-Type", "value": "application/json" }],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"name\": \"Ada Lovelace\",\n  \"username\": \"ada\",\n  \"email\": \"ada@example.com\",\n  \"password\": \"secret123\"\n}"
+          "raw": "{\n  \"name\": \"Ahmed Bahnasy\",\n  \"username\": \"Bahnasy202222\",\n  \"email\": \"bahnasyd20222@gmail.com\",\n  \"dateOfBirth\": \"2000-01-01\",\n  \"gender\": \"male\",\n  \"password\": \"Aa@123456\",\n  \"rePassword\": \"Aa@123456\"\n}"
         },
         "url": "{{baseUrl}}/users/signup"
       }

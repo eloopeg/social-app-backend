@@ -1,5 +1,7 @@
 # Eloop Social API
 
+Complete API reference: [API_DOCUMENTATION.md](API_DOCUMENTATION.md)
+
 Beginner-friendly REST API for a social application, compatible with the Route Academy `route-posts` workflow.
 
 ## Run locally

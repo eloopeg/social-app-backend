@@ -45,7 +45,14 @@ router.post("/posts/:postId/share", auth, p.share);
 router.get("/posts/:postId/comments", auth, c.list);
 router.post("/posts/:postId/comments", auth, c.create);
 router.get("/posts/:postId/comments/:commentId/replies", auth, c.replies);
-router.post("/posts/:postId/comments/:commentId/replies", auth, c.create);
+router.post(
+  "/posts/:postId/comments/:commentId/replies",
+  auth,
+  (req, res, next) => {
+    req.body.parent = req.params.commentId;
+    c.create(req, res, next);
+  },
+);
 router.put("/posts/:postId/comments/:commentId", auth, c.edit);
 router.delete("/posts/:postId/comments/:commentId", auth, c.remove);
 router.put("/posts/:postId/comments/:commentId/like", auth, c.like);

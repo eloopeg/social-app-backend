@@ -24,6 +24,7 @@ export default async function handler(req, res) {
   const requestUrl = req.url || "/";
   const isPublicHealth =
     requestUrl === "/" ||
+    requestUrl.startsWith("/docs") ||
     requestUrl.startsWith("/api/health") ||
     requestUrl.startsWith("/health");
 

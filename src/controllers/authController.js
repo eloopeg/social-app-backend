@@ -69,7 +69,7 @@ export const signin = async (req, res) => {
       expiresIn,
       user: authUser(user),
     },
-    "login successful",
+    "success",
   );
 };
 export const changePassword = async (req, res) => {

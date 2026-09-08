@@ -19,6 +19,9 @@ app.get("/api/health", (req, res) =>
 app.get("/docs", (req, res) => {
   res.type("html").send(docsPage());
 });
+app.get("/api/docs", (req, res) => {
+  res.type("html").send(docsPage());
+});
 app.use("/api", api);
 app.use((req, res) =>
   res.status(404).json({ success: false, message: "Route not found" }),
